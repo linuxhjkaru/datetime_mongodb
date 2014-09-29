@@ -1,5 +1,3 @@
-datetime_mongodb
-================
 ###Xử lý datetime trong MongoDB
 
 Khi muốn sắp xếp một trường trong MongoDB thì ta sử dụng $sort trong toán tử aggregation pipeline như sau 
@@ -14,6 +12,7 @@ Nhắc lại về toán tử aggregation pipeline trong MongoDB thì  aggregatio
 
 Ví dụ với vấn đề lấy ra kết quả mà trường created _at vào thứ 2 trong tuần thì làm như sau
 Sử dụng $project để lấy kết quả có trường day_of_week lưu thứ trong tuần được chuyển đổi từ trường  created _at 
+```ruby
 def project_day_of_week
   {
     “$project” => {
@@ -22,12 +21,12 @@ def project_day_of_week
     }
   }
 end
-
+```
 $dayOfWeek là 1 method của MongoDB hỗ trợ việc lấy thứ trong tuần. Ngoài ra MongoDB có rất nhiều hàm hỗ trợ xử lý ngày tháng như $dayOfMonth trả về giá trị ngày trong tháng từ 1 đến 31, $hour trả về giá trị giờ trong ngày từ 0đến 23. Có thể tham khảo trong link:
 http://docs.mongodb.org/manual/reference/operator/aggregation-date/
 
 Sau khi sử dụng method  project_day_of_week thì ta sẽ có kết quả trả về là một bảng có trường dayweek lưu ngày trong tuần. Sử dụng method $match để lấy tiếp các kết quả vào ngày thứ 2 như sau
-
+```ruby
 def match_day_of_week
  {
     “$match” => {
@@ -35,28 +34,36 @@ def match_day_of_week
     }
   }	
 end
+```
 Cần lưu ý rằng kết quả trả về khi sử dụng $dayOfWeek của ngày chủ nhật sẽ là 1, thứ 2 là 2... cho đến thứ 7 là 7.
 Sử dụng toán tử aggreation pipeline như sau
+```ruby
 db.sample_db.aggregate.(project_day_of_week, match_day_of_week)
+```
 sẽ cho kết quả là ngày thứ 2 theo trường created_at. 
 Với toán tử aggregation pipeline thì có thể sắp xếp tiếp kết quả in ra theo name một cách đơn giản như sau
+```ruby
 def sort_name
  {
     “$sort” => {
       name: 1
     }
-  }	
+  }
+```  
+
 và aggregate method là 
 db.sample_db.aggregate.(project_day_of_week, match_day_of_week, sort_name)
 Tương tự như trên thì khi cần group trường created_at theo thứ trong tuần rồi sắp xếp thì chỉ cần thêm 2 hàm group
+```ruby
 def group_day_of_week
  {
     “$group” => {
       id: {dayofweek: "$dayweek"}
     }
   }
-
+```
 và hàm sort
+```ruby
 def sort_day_of_week
 	
 {
@@ -65,12 +72,12 @@ def sort_day_of_week
     }
   }
 end
-
+```
 Sử dụng toán tử aggregation pipeline :
-
+```ruby
 db.sample_db.aggregate.(project_day_of_week, group_day_of_week, sort_day_of_week
 )
-
+```
  Sử dụng mongoid trong rails để có thể dùng các hàm xử lý trên mongodb như active record là where, group... thì cũng có thể xử lý dễ dàng các vấn đề trên nhưng sẽ cho performance không cao bằng việc sử dụng aggregation pipeline trong trường hợp database là big data.
 
 
