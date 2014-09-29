@@ -8,7 +8,7 @@ end
 ```
   Trong MongoDB khi tạo document sẽ luôn tự động có các trường created_date và updated_at. Kiểu dữ liệu của 2 trường này là Datetime ví dụ: "created_at: 2014-09-26 02:18:09 UTC". Nếu sử dụng $sort với trường created_date thì kết quả sẽ sắp xếp theo thời gian như thông thường. Vậy nếu muốn group trường created_at theo thứ trong tuần, hoặc theo tháng rồi sắp xếp hoặc chọn ra kết quả là thứ 2 trong trường created_at thì sẽ phải làm như thế nào?
 
-  Nhắc lại về toán tử aggregation pipeline trong MongoDB thì  aggregation pipeline sẽ thực hiện các method $match, $sort, $group, $project, $limit.. một cách tuần tự theo thứ tự gọi các method khi sử dụng toán tử aggregation. Có nghĩa là có thể nhóm các phần tử, sau đó sắp xếp kết quả nhận được. Tiếp tục nhóm các kêt cả sau sắp xếp rồi giới hạn số kết quả in ra… Đây là điểm mạnh của toán tử aggregation. Method nào được gọi trước sẽ được xử lý trước, kết quả của method trước sẽ là input của method sau.
+  Nhắc lại về toán tử aggregation pipeline trong MongoDB thì  aggregation pipeline sẽ thực hiện các method $match, $sort, $group, $project, $limit.. một cách tuần tự theo thứ tự gọi các method khi sử dụng toán tử aggregation. Có nghĩa là có thể nhóm các phần tử, sau đó sắp xếp kết quả nhận được. Tiếp tục nhóm các kêt cả sau sắp xếp rồi giới hạn số kết quả in ra… Đây là điểm mạnh của toán tử aggregation. Method nào được gọi trước sẽ được xử lý trước, kết quả của method trước sẽ là input của method sau. (src: http://docs.mongodb.org/manual/reference/operator/aggregation/)
 
   Ví dụ với vấn đề lấy ra kết quả mà trường created _at vào thứ 2 trong tuần thì làm như sau.
 Sử dụng $project để lấy kết quả có trường day_of_week lưu thứ trong tuần được chuyển đổi từ trường  created _at 
