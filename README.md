@@ -55,7 +55,7 @@ và aggregate method là
 ```ruby
 db.sample_db.aggregate.(project_day_of_week, match_day_of_week, sort_name)
 ```
-  Tương tự như trên thì khi cần group trường created_at theo thứ trong tuần rồi sắp xếp thì chỉ cần thêm 2 hàm group
+  Tương tự như trên thì khi cần group trường created_at theo thứ trong tuần rồi sắp xếp thì chỉ cần viết hàm group để nhóm kết cả theo thứ trong tuần
 ```ruby
 def group_day_of_week
  {
@@ -77,8 +77,7 @@ end
 ```
 Sử dụng toán tử aggregation pipeline :
 ```ruby
-db.sample_db.aggregate.(project_day_of_week, group_day_of_week, sort_day_of_week
-)
+db.sample_db.aggregate.(project_day_of_week, group_day_of_week, sort_day_of_week)
 ```
    Sử dụng mongoid trong rails để có thể dùng các hàm xử lý trên mongodb như active record là where, group... thì cũng có thể xử lý dễ dàng các vấn đề trên nhưng sẽ cho performance không cao bằng việc sử dụng aggregation pipeline trong trường hợp database là big data.
 
