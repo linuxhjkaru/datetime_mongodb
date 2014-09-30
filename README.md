@@ -16,7 +16,7 @@ def project_day_of_week
   }
 end
 ```
-$dayOfWeek là 1 method của MongoDB hỗ trợ việc lấy thứ trong tuần. Ngoài ra MongoDB có rất nhiều hàm hỗ trợ xử lý ngày tháng như $dayOfMonth trả về giá trị ngày trong tháng từ 1 đến 31, $hour trả về giá trị giờ trong ngày từ 0đến 23. Có thể tham khảo trong link:
+$dayOfWeek là 1 method của MongoDB hỗ trợ việc lấy thứ trong tuần. Ngoài ra MongoDB có rất nhiều hàm hỗ trợ xử lý ngày tháng như $dayOfMonth trả về giá trị ngày trong tháng từ 1 đến 31, $hour trả về giá trị giờ trong ngày từ 0 đến 23. Có thể tham khảo trong link:
 http://docs.mongodb.org/manual/reference/operator/aggregation-date/
 
   Sau khi sử dụng method  project_day_of_week thì ta sẽ có kết quả trả về là một bảng có trường dayweek lưu ngày trong tuần. Sử dụng method $match để lấy tiếp các kết quả vào ngày thứ 2 như sau
