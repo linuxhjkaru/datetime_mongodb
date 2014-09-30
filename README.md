@@ -1,12 +1,6 @@
 ###Xử lý datetime trong MongoDB
 
-  Khi muốn sắp xếp một trường trong MongoDB thì ta sử dụng $sort trong toán tử aggregation pipeline như sau 
-```ruby
-def sort sorted_field, sort_type
-  {"$sort" => {sorted_field => sort_type}}
-end
-```
-  Trong MongoDB khi tạo document sẽ luôn tự động có các trường created_date và updated_at. Kiểu dữ liệu của 2 trường này là Datetime ví dụ: "created_at: 2014-09-26 02:18:09 UTC". Nếu sử dụng $sort với trường created_date thì kết quả sẽ sắp xếp theo thời gian như thông thường. Vậy nếu muốn group trường created_at theo thứ trong tuần, hoặc theo tháng rồi sắp xếp hoặc chọn ra kết quả là thứ 2 trong trường created_at thì sẽ phải làm như thế nào?
+  Trong MongoDB khi tạo document sẽ luôn tự động có các trường created_date và updated_at. Kiểu dữ liệu của 2 trường này là Datetime ví dụ: "created_at: 2014-09-26 02:18:09 UTC". Nếu sử dụng $sort với trường created_date thì kết quả sẽ sắp xếp theo thời gian như thông thường. Vậy nếu muốn group trường created_at theo thứ trong tuần, hoặc theo tháng rồi sắp xếp hoặc chọn ra kết quả là thứ 2 trong trường created_at thì sẽ phải làm như thế nào? Hoặc khi muốn dữ liệu lấy ra là theo ngày trong năm, hay theo tuần trong năm thì sẽ xử lý dữ liệu DateTime như thế nào? Bài viết này sẽ hướng dẫn về cách xử lý dữ liệu kiểu DateTime trong MongoDB.
 
   Nhắc lại về toán tử aggregation pipeline trong MongoDB thì  aggregation pipeline sẽ thực hiện các method $match, $sort, $group, $project, $limit.. một cách tuần tự theo thứ tự gọi các method khi sử dụng toán tử aggregation. Có nghĩa là có thể nhóm các phần tử, sau đó sắp xếp kết quả nhận được. Tiếp tục nhóm các kêt cả sau sắp xếp rồi giới hạn số kết quả in ra… Đây là điểm mạnh của toán tử aggregation. Method nào được gọi trước sẽ được xử lý trước, kết quả của method trước sẽ là input của method sau. (src: http://docs.mongodb.org/manual/reference/operator/aggregation/)
 
